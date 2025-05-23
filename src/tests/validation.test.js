@@ -1,5 +1,5 @@
 
-import {isProduct, isCartObject} from "../validation"
+import {isProduct, isCartItem} from "../validation"
 
 describe("isProdukt",()=>{
 	test("ska returnera true för en giltig produkt",()=>{
@@ -58,7 +58,7 @@ describe("isProdukt",()=>{
 	
 })
 
-describe("isCartObject",()=>{
+describe("isCartItem",()=>{
 	test("ska returnera true för en giltig cart object",()=>{
 		const input={
 			id: 2001,
@@ -72,7 +72,7 @@ describe("isCartObject",()=>{
 			
 		}
 		const expected=true
-		const actual=isCartObject(input)
+		const actual=isCartItem(input)
 		expect(actual).toBe(expected)
 		
 	})
@@ -89,7 +89,7 @@ describe("isCartObject",()=>{
 			
 		}
 		const expected=false
-		const actual=isCartObject(input)
+		const actual=isCartItem(input)
 		expect(actual).toBe(expected)
 		
 	})
@@ -101,35 +101,16 @@ describe("isCartObject",()=>{
 			
 		}
 		const expected=false
-		const actual=isCartObject(input)
+		const actual=isCartItem(input)
+		expect(actual).toBe(expected)
+		
+	})
+	test("ska returnera false om input är null",()=>{
+		const input=null
+		const expected=false
+		const actual=isCartItem(input)
 		expect(actual).toBe(expected)
 		
 	})
 })
 
-
-
-
-
-
-
-
-
-// const exampleCartObject = {
-// 	id: 2001,
-// 	amount: 1,
-// 	item: exampleProduct
-// }
-
-
-
-// 	// ---------------------------------------------
-// 	// Följande testfall ska du implementera. Det är tillåtet att använda Joi. Gör i så fall ett schema för varje sorts objekt du vill kunna validera. Du får även ändra texten och du t.ex. vill skriva på svenska i stället för engelska.
-// 	// (Ta bort dessa kommentarer när du är klar)
-
-// 	// 1. it returns true for a valid cart object
-// 	// 2. it returns false for invalid cart objects
-
-// 	// 3. it returns true for a valid product
-// 	// 4. it returns false for invalid product
-// })

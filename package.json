@@ -4,8 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "node --no-experimental-require-module --experimental-vm-modules node_modules/jest/bin/jest.js"  
-,
+    "test": "node --no-experimental-require-module --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test-details": "node --experimental-vm-modules node_modules/jest/bin/jest.js --verbose"
   },
   "keywords": [],
@@ -14,5 +13,8 @@
   "description": "Examination i kurs om testning",
   "devDependencies": {
     "jest": "^29.7.0"
+  },
+  "dependencies": {
+    "joi": "^17.13.3"
   }
 }

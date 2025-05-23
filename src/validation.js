@@ -1,3 +1,4 @@
+
 function isProduct(maybeProduct) {
 		if(typeof maybeProduct === "object" &&
 		maybeProduct !== null && 
@@ -13,8 +14,9 @@ function isProduct(maybeProduct) {
 	
 }
 
-function isCartObject(maybeCartItem){
-	if(typeof maybeCartItem.id==="number"&&
+function isCartItem(maybeCartItem){
+	if(maybeCartItem !==null &&
+		typeof maybeCartItem.id==="number"&&
 		typeof maybeCartItem.amount==="number"&&
 		typeof maybeCartItem.item==="object"
 	)
@@ -25,4 +27,4 @@ function isCartObject(maybeCartItem){
 
 }
 
-export {isProduct,isCartObject}
+export {isProduct,isCartItem}
