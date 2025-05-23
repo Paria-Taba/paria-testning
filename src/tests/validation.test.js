@@ -1,36 +1,111 @@
-// import { isCartItem, isProduct } from "../validation.js"
-// Examples of a valid product and a valid cart item. You may use these when testing below.
-import {isProduct} from "../validation"
-describe("validation",()=>{
+
+import {isProduct, isCartObject} from "../validation"
+
+describe("isProdukt",()=>{
 	test("ska returnera true för en giltig produkt",()=>{
-	const input={
-		id: 1001,
-	name: 'Badanka',
-	price: 500
-	}
-	const expected=true;
-	const actual=isProduct(input)
-	expect(actual).toBe(expected)
-
+		const input={
+			id: 1001,
+			name: 'Badanka',
+			price: 500
+		}
+		const expected=true;
+		const actual=isProduct(input)
+		expect(actual).toBe(expected)
+		
+	})
+	test("ska returnera false om är inte object",()=>{
+		const input="Hello"
+		const expected=false;
+		const actual=isProduct(input)
+		expect(actual).toBe(expected)
+		
+	})
+	test("ska returnera false om object har inte id",()=>{
+		const input={
+			name: 'Badanka',
+			price: 500
+		}
+		const expected=false;
+		const actual=isProduct(input)
+		expect(actual).toBe(expected)
+		
+	})
+	test("ska returnera false om pris är string istället number",()=>{
+		const input={
+			id: 1001,
+			name: 'Badanka',
+			price: "Hello"
+		}
+		const expected=false;
+		const actual=isProduct(input)
+		expect(actual).toBe(expected)
+		
+	})
+	test("ska returnera false om obj är tomt",()=>{
+		const input=[]
+		const expected=false;
+		const actual=isProduct(input)
+		expect(actual).toBe(expected)
+		
+	})
+	test("ska returnera false om input är null",()=>{
+		const input= null
+		const expected=false;
+		const actual=isProduct(input)
+		expect(actual).toBe(expected)
+		
+	})
+	
 })
-test("ska returnera false om är inte object",()=>{
-	const input="Hello"
-	const expected=false;
-	const actual=isProduct(input)
-	expect(actual).toBe(expected)
 
+describe("isCartObject",()=>{
+	test("ska returnera true för en giltig cart object",()=>{
+		const input={
+			id: 2001,
+			amount: 1,
+			item: {
+				id: 1001,
+				name: 'Badanka',
+				price: 500
+				
+			}
+			
+		}
+		const expected=true
+		const actual=isCartObject(input)
+		expect(actual).toBe(expected)
+		
+	})
+	test("ska returnera false om id är inte number",()=>{
+		const input={
+			id: "Hello",
+			amount: 1,
+			item: {
+				id: 1001,
+				name: 'Badanka',
+				price: 500
+				
+			}
+			
+		}
+		const expected=false
+		const actual=isCartObject(input)
+		expect(actual).toBe(expected)
+		
+	})
+		test("ska returnera false om item är inte object",()=>{
+		const input={
+			id: "Hello",
+			amount: 1,
+			item: "Paria"
+			
+		}
+		const expected=false
+		const actual=isCartObject(input)
+		expect(actual).toBe(expected)
+		
+	})
 })
-test("ska returnera false om är inte object",()=>{
-	const input="Hello"
-	const expected=false;
-	const actual=isProduct(input)
-	expect(actual).toBe(expected)
-
-})
-
-})
-
-
 
 
 
@@ -46,16 +121,6 @@ test("ska returnera false om är inte object",()=>{
 // 	item: exampleProduct
 // }
 
-// // Group tests using "describe"
-// describe('Validation', () => {
-
-// 	// Använd en "test" eller "it" (de är synonymer) för varje testfall
-// 	/* Exempel på syntax:
-// 	test('beskriv testfallet', () => {
-// 		// här skriver du testkoden
-// 		// avsluta alltid med "expect"
-// 	})
-// 	*/
 
 
 // 	// ---------------------------------------------
@@ -66,5 +131,5 @@ test("ska returnera false om är inte object",()=>{
 // 	// 2. it returns false for invalid cart objects
 
 // 	// 3. it returns true for a valid product
-// 	// 4. it returns false for invalid cart objects
+// 	// 4. it returns false for invalid product
 // })
