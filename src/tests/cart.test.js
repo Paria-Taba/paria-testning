@@ -159,6 +159,6 @@ describe("removeFromCart",()=>{
          expect(countAfterRemoval).toBe(2) 
 	})
 	  test("removeFromCart returnerar false om id saknas", () => {
-    expect(removeFromCart(9999)).toBe(true)
+    expect(removeFromCart(9999)).toBe(false)
   })
 })
