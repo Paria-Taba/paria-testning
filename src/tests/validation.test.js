@@ -105,6 +105,18 @@ describe("isCartItem",()=>{
 		expect(actual).toBe(expected)
 		
 	})
+	test("returnera false om item är null",()=>{
+const input={
+			id: "Hello",
+			amount: 1,
+			item: null
+			
+		}
+		const expected=false
+		const actual=isCartItem(input)
+		expect(actual).toBe(expected)
+	})
+
 	test("ska returnera false om input är null",()=>{
 		const input=null
 		const expected=false
@@ -112,5 +124,21 @@ describe("isCartItem",()=>{
 		expect(actual).toBe(expected)
 		
 	})
+	test("returnera false om amount är inte number",()=>{
+		const input={
+			id: 2001,
+			amount: "paria",
+			item: {
+				id: 1001,
+				name: 'Badanka',
+				price: 500
+				
+			}
+			
+		}
+		const actual=isCartItem(input)
+		expect(actual).toBe(false)
+	})
+	
 })
 

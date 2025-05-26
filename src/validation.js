@@ -14,17 +14,13 @@ function isProduct(maybeProduct) {
 	
 }
 
-function isCartItem(maybeCartItem){
-	if(maybeCartItem !==null &&
-		typeof maybeCartItem.id==="number"&&
-		typeof maybeCartItem.amount==="number"&&
-		typeof maybeCartItem.item==="object"
-	)
-	return true
-	else{
-		return false
-	}
-
+function isCartItem(maybeCartItem) {
+  if (maybeCartItem === null) return false;
+  if (typeof maybeCartItem.id !== "number") return false;
+  if (typeof maybeCartItem.amount !== "number") return false;
+  if (typeof maybeCartItem.item !== "object" || maybeCartItem.item === null) return false;
+  return true;
 }
+
 
 export {isProduct,isCartItem}
