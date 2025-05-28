@@ -1,86 +1,124 @@
 import { addToCart, getCartItemCount,clearCart,getItem,getTotalCartValue,editCart,removeFromCart } from "../cart"
 
 describe('Cart', () => {
-    beforeEach(() => {
-        clearCart()
-    })
+	beforeEach(() => {
+		clearCart()
+	})
+	
+	
+	describe("getCartItemCount",()=>{
+		test("getCartItemCount returnerar korrekt antal produkter",()=>{
+			addToCart({ id: 1001, name: 'Bollar', price: 500 })
+			addToCart({ id: 1002, name: 'Anka', price: 300 })
+			
+			const expected=2
+			const actual=getCartItemCount();
+			expect(actual).toBe(expected)
+		})
+		test("getCartItemCount returnerar korrekt antal produkter",()=>{
+			addToCart({ id: 1003, name: 'kat', price: 500 })
+			addToCart({ id: 1004, name: 'Hund', price: 300 })
+			addToCart({ id: 1005, name: 'Häst', price: 400 })
+			
+			const expected=3
+			const actual=getCartItemCount();
+			expect(actual).toBe(expected)
+		})
+	})
+	
+	describe("clearCart",()=>{
+		test("clearCart tömmer kundvagnen", () => {
+			
+			addToCart({ id: 1001, name: 'Bollar', price: 500 })
+			addToCart({ id: 1002, name: 'Paria', price: 300 })
+			
+			expect(getCartItemCount()).toBe(2)
+			
+			clearCart()
+			
+			expect(getCartItemCount()).toBe(0)
+		})
+		test("clearCart tömmer kundvagnen", () => {
+			
+			addToCart({ id: 1001, name: 'Bollar', price: 500 })
+			addToCart({ id: 1002, name: 'Paria', price: 300 })
+			addToCart({ id: 1002, name: 'docka', price: 400 })
+			
+			expect(getCartItemCount()).toBe(3)
+			
+			clearCart()
+			
+			expect(getCartItemCount()).toBe(0)
+		})
+	})
+	
+	
+	describe("getItem(index)",()=>{
+		test("getItem returnerar korrekt objekt från kundvagnen-1",()=>{
+			const input={id:2020 , name:"kat", price:400}
+			addToCart(input)
+			const expected=2020
+			const actual=getItem(0).item
+			expect(actual.id).toBe(expected)
+			expect(actual.name).toBe("kat")
+		})
+		test("getItem returnerar korrekt objekt från kundvagnen-2",()=>{
+			addToCart({id:1000 , name:"sol", price:200})
+			addToCart({id:1001 , name:"blomma", price:500})
+			const expected="blomma"
+			const actual=getItem(1).item
+			expect(actual.name).toBe(expected)
+		})
 
-test("clearCart tömmer kundvagnen", () => {
- 
-  addToCart({ id: 1001, name: 'Bollar', price: 500 })
-  addToCart({ id: 1002, name: 'Paria', price: 300 })
-
-  expect(getCartItemCount()).toBe(2)
-
+		test("getItem returnerar undefined eller null för ogiltigt index", () => {
   clearCart()
-
-  expect(getCartItemCount()).toBe(0)
+  addToCart({ id: 1001, name: "Testprodukt", price: 100 })
+  const expected=null
+  
+  expect(getItem(-1)).toBe(expected)
+  expect(getItem(10)).toBe(expected) 
+})
+		
+	})
+	
+	
 })
 
 
-describe("antal produkter",()=>{
-	test("getCartItemCount returnerar korrekt antal produkter",()=>{
-    addToCart({ id: 1001, name: 'Bollar', price: 500 })
-    addToCart({ id: 1002, name: 'Anka', price: 300 })
-
-	const expected=2
-	const actual=getCartItemCount();
-	expect(actual).toBe(expected)
-})
-	test("getCartItemCount returnerar korrekt antal produkter",()=>{
-    addToCart({ id: 1003, name: 'kat', price: 500 })
-    addToCart({ id: 1004, name: 'Hund', price: 300 })
-	addToCart({ id: 1005, name: 'Häst', price: 400 })
-
-	const expected=3
-	const actual=getCartItemCount();
-	expect(actual).toBe(expected)
-})
-})
-
-describe("getItem(index)",()=>{
-	test("getItem returnerar korrekt objekt från kundvagnen-1",()=>{
-	const input={id:2020 , name:"kat", price:400}
-	addToCart(input)
-	const expected=2020
-	const actual=getItem(0).item
-	expect(actual.id).toBe(expected)
-	expect(actual.name).toBe("kat")
-})
-test("getItem returnerar korrekt objekt från kundvagnen-2",()=>{
-	addToCart({id:1000 , name:"sol", price:200})
-	addToCart({id:1001 , name:"blomma", price:500})
-	const expected="blomma"
-	const actual=getItem(1).item
-	expect(actual.name).toBe(expected)
-})
-
-})
-
-
-})
-
-
-describe("test av addToCart(newItem)",()=>{
-	  
-test('addToCart lägger till en ny produkt i kundvagnen', () => {
-        const itemCountBefore = getCartItemCount()
-        const input = { id: 1002, name: 'Vattenpistol', price: 40 }
-        addToCart(input)
-        const itemCountAfter = getCartItemCount()
-
-        expect(itemCountAfter).toBe(itemCountBefore + 1)
-    })
+describe("addToCart(newItem)",()=>{
+	
+	test('addToCart lägger till en ny produkt i kundvagnen', () => {
+		const itemCountBefore = getCartItemCount()
+		const input = { id: 1002, name: 'Vattenpistol', price: 40 }
+		addToCart(input)
+		const itemCountAfter = getCartItemCount()
+		
+		expect(itemCountAfter).toBe(itemCountBefore + 1)
+	})
 	test('antal av addToCart', () => {
-         clearCart()
-         addToCart({ id: 1002, name: 'Vattenpistol', price: 40 })
-		 addToCart({ id: 1003, name: 'anka', price: 50 })
-		 addToCart({ id: 1004, name: 'appa', price: 70 })
-         const expected=3
-        const itemCountAfter = getCartItemCount()
+		clearCart()
+		addToCart({ id: 1002, name: 'Vattenpistol', price: 40 })
+		addToCart({ id: 1003, name: 'anka', price: 50 })
+		addToCart({ id: 1004, name: 'appa', price: 70 })
+		const expected=3
+		const itemCountAfter = getCartItemCount()
+		
+		expect(itemCountAfter).toBe(expected)
+	})
 
-        expect(itemCountAfter).toBe(expected)
-    })
+	test('addToCart returnerar false för ogiltig produkt(Inget ID eller pris)', () => {
+		const input = { name: 'doka' }
+		expect(addToCart(input)).toBe(false)
+	})
+
+		test('addToCart returnerar false pris är 0 ', () => {
+		const input = {id: 1003, name: 'anka', price: 0}
+		expect(addToCart(input)).toBe(false)
+	})
+	test('addToCart returnerar false pris är mindre än 0 ', () => {
+		const input = {id: 1003, name: 'anka', price: -50}
+		expect(addToCart(input)).toBe(false)
+	})
 })
 
 describe("editCart(itemId,newValue)",()=>{
@@ -88,13 +126,14 @@ describe("editCart(itemId,newValue)",()=>{
 		clearCart()
 		const input={ id: 1001, name: "Badanka", price: 100 }
 		addToCart(input)
-		 const item = getItem(0)
-		 const actual = editCart(item.id, {amount: 3 })
-		 expect(actual).toBe(true)
-		 expect(item.amount).toBe(3)
-	
+		const item = getItem(0)
+		const actual = editCart(item.id, {amount: 3 })
+		expect(actual).toBe(true)
+		expect(item.amount).toBe(3)
+		
 	})
-		test("editCart byter korrekt namn av produkt",()=>{
+
+	test("editCart byter korrekt namn av produkt",()=>{
 		clearCart()
 		const input={ id: 1001, name: "Badanka", price: 100 }
 		addToCart(input)
@@ -102,9 +141,9 @@ describe("editCart(itemId,newValue)",()=>{
 		const actual=editCart(item.id,{item: { name: "Anka" }})
 		expect(actual).toBe(true)
 		expect(getItem(0).item.name).toBe("Anka")
-	
-	
+		
 	})
+
 	test("editCart byter korrekt price av produkt",()=>{
 		clearCart()
 		const input={ id: 1001, name: "Badanka", price: 100 }
@@ -113,40 +152,63 @@ describe("editCart(itemId,newValue)",()=>{
 		const actual=editCart(item.id,{item: { price: 150 }})
 		expect(actual).toBe(true)
 		expect(getItem(0).item.price).toBe(150)
-	
-	
+		
 	})
+
+		test("om pricet är 0 returnera false",()=>{
+		clearCart()
+		const input={ id: 1001, name: "Badanka", price: 100 }
+		addToCart(input)
+		const item=getItem(0)
+		const actual=editCart(item.id,{item: { price: 0}})
+		expect(actual).toBe(false)
+		
+	})
+		test("om pricet är mindre än 0 returnera false",()=>{
+		clearCart()
+		const input={ id: 1001, name: "Badanka", price: 100 }
+		addToCart(input)
+		const item=getItem(0)
+		const actual=editCart(item.id,{item: { price: -60}})
+		expect(actual).toBe(false)
+		
+	})
+	
 })
+
 
 describe("get total cart value",()=>{
-test("getTotalCartValue returnerar korrekt summa av produkternas pris",()=>{
-	clearCart()
-    addToCart({ id: 1001, name: 'Boll', price: 100 }) 
-    addToCart({ id: 1002, name: 'Djur', price: 50 })  
-const expected=100 + 50;
-const actual=getTotalCartValue()
-expect(actual).toBe(expected)
+	test("getTotalCartValue returnerar korrekt summa av produkternas pris",()=>{
+		clearCart()
+		addToCart({ id: 1001, name: 'Boll', price: 100 }) 
+		addToCart({ id: 1002, name: 'Djur', price: 50 })  
+		const expected=100 + 50;
+		const actual=getTotalCartValue()
+		expect(actual).toBe(expected)
+		
+	})
 
+	test("getTotalCartValue med olika amount för produkter", () => {
+		clearCart()
+		
+		const inputA = { id: 1000, name: "Anka", price: 150 }
+		const inputB = { id: 1001, name: "Appa", price: 50 }
+		
+		addToCart(inputA)
+		addToCart(inputB)
+		
+		editCart(getItem(0).id, { amount: 1 })  
+		editCart(getItem(1).id, { amount: 2 }) 
+		
+		const expected = 150 + 2*50
+		const actual = getTotalCartValue()
+		
+		expect(actual).toBe(expected)
+	})
+	
 })
-test("getTotalCartValue med olika amount för produkter", () => {
-  clearCart()
 
-  const inputA = { id: 1000, name: "Anka", price: 150 }
-  const inputB = { id: 1001, name: "Appa", price: 50 }
 
-  addToCart(inputA)
-  addToCart(inputB)
-
-  editCart(getItem(0).id, { amount: 1 })  
-  editCart(getItem(1).id, { amount: 2 }) 
-
-  const expected = 150 + 2*50
-  const actual = getTotalCartValue()
-
-  expect(actual).toBe(expected)
-})
-
-})
 describe("removeFromCart",()=>{
 	test("kan tabort produkt from kart",()=>{
 		clearCart(),
@@ -155,10 +217,18 @@ describe("removeFromCart",()=>{
 		addToCart({id: 1002, name: "apelsin", price: 60} )
 		const actual=removeFromCart(getItem(1).id)
 		expect(actual).toBe(true)
-	 const countAfterRemoval = getCartItemCount()
-         expect(countAfterRemoval).toBe(2) 
+		const countAfterRemoval = getCartItemCount()
+		expect(countAfterRemoval).toBe(2) 
 	})
-	  test("removeFromCart returnerar false om id saknas", () => {
-    expect(removeFromCart(9999)).toBe(false)
-  })
+	
+	test("removeFromCart returnerar false om id inte finns", () => {
+		expect(removeFromCart(9999)).toBe(false)       
+	})
+
+	test("removeFromCart returnerar false för icke-numeriskt ID", () => {
+  expect(removeFromCart("abc")).toBe(false)
+  expect(removeFromCart(null)).toBe(false)
+  expect(removeFromCart(undefined)).toBe(false)
+  expect(removeFromCart({})).toBe(false)
+})
 })

@@ -1,26 +1,25 @@
+import Joi from 'joi'
+
+const productSchema = Joi.object({
+    id: Joi.number().required(),
+    name: Joi.string().required(),
+    price: Joi.number().greater(0).required()
+})
+
+const cartItemSchema = Joi.object({
+    id: Joi.number().required(),
+    amount: Joi.number().greater(0).required(),
+    item: productSchema.required()
+})
 
 function isProduct(maybeProduct) {
-		if(typeof maybeProduct === "object" &&
-		maybeProduct !== null && 
-		typeof maybeProduct.id==="number" && 
-		typeof maybeProduct.name==="string" && 
-		typeof maybeProduct.price==="number" 
-	) {
-		return true
-		
-	}else{
-		return false
-	}
-	
+    const { error } = productSchema.validate(maybeProduct)
+    return !error
 }
 
 function isCartItem(maybeCartItem) {
-  if (maybeCartItem === null) return false;
-  if (typeof maybeCartItem.id !== "number") return false;
-  if (typeof maybeCartItem.amount !== "number") return false;
-  if (typeof maybeCartItem.item !== "object" || maybeCartItem.item === null) return false;
-  return true;
+    const { error } = cartItemSchema.validate(maybeCartItem)
+    return !error
 }
 
-
-export {isProduct,isCartItem}
+export { isProduct, isCartItem }
