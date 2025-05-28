@@ -20,7 +20,7 @@ function clearCart() {
 
 function getItem(index){
  if (index < 0 || index >= cart.length) {
-    return null 
+    throw new Error("ogiltigt index");
   }
 return cart[index]
 }
@@ -28,7 +28,7 @@ return cart[index]
 
 function addToCart(newItem) {
 	if( !isProduct(newItem) ) {
-		return false
+		throw new Error("Ogiltig produkt")
 	}
 
 	const cartItem = { id: idCounter, amount: 1, item: newItem }
@@ -51,7 +51,7 @@ if (newValues.amount !== undefined) {
   if (newValues.item !== undefined) {
     item.item = { ...item.item, ...newValues.item }
 	if(newValues.item.price <=0){
-		return false
+		throw new Error("Ogiltig pris")
 	}
   }
 
